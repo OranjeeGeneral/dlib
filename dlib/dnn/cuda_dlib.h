@@ -9,7 +9,7 @@
 
 namespace dlib
 {
-    namespace cuda 
+    namespace cuda
     {
 
     // ----------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ namespace dlib
         );
 
         void scale_rows2 (
-            float beta, 
+            float beta,
             tensor& out,
             const tensor& m1,
             const tensor& m2,
@@ -255,17 +255,17 @@ namespace dlib
 
         void affine_transform(
             const rectangle& rect,
-            tensor& dest, 
-            const tensor& src1, 
-            const tensor& src2, 
-            const tensor& src3, 
-            float A, 
+            tensor& dest,
+            const tensor& src1,
+            const tensor& src2,
+            const tensor& src3,
+            float A,
             float B,
             float C
         );
 
         // Note that this function isn't in the tt:: namespace because add_scaled() is
-        // called by cuda::add() so we don't need a tt:: version of add_scaled().  
+        // called by cuda::add() so we don't need a tt:: version of add_scaled().
         void add_scaled(
             tensor& dest,
             const float scale,
@@ -273,9 +273,9 @@ namespace dlib
         );
 
         void add_cv_to_all_columns(
-            float beta, 
-            tensor& dest, 
-            float alpha, 
+            float beta,
+            tensor& dest,
+            float alpha,
             const tensor& src
         );
 
@@ -350,9 +350,22 @@ namespace dlib
             const tensor& src,
             const tensor& gradient_input,
             const tensor& param,
-            tensor& params_grad 
+            tensor& params_grad
         );
 
+
+        void elu_cuda (
+            tensor& dest,
+            const tensor& src,
+            const tensor& param
+        );
+
+        void elu_gradient_cuda (
+            tensor& grad,
+            const tensor& src,
+            const tensor& gradient_input,
+            const tensor& param
+        );
 
     // ----------------------------------------------------------------------------------------
 
@@ -417,7 +430,7 @@ namespace dlib
 
         inline std::string get_device_name (
             int device
-        ) 
+        )
         {
             DLIB_CASSERT(device == 0, "dlib::cuda::set_device(id) called with an invalid device id.");
             return "CUDA_DISABLED";
@@ -447,7 +460,7 @@ namespace dlib
 
 #endif // DLIB_USE_CUDA
 
-    } 
+    }
 }
 
 

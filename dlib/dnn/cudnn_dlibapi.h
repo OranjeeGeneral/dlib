@@ -14,7 +14,7 @@ namespace dlib
     class tensor;
     class resizable_tensor;
 
-    namespace cuda 
+    namespace cuda
     {
 
     // -----------------------------------------------------------------------------------
@@ -38,10 +38,10 @@ namespace dlib
             ~tensor_descriptor();
 
             void set_size(
-                int n, 
+                int n,
                 int k,
-                int nr, 
-                int nc 
+                int nr,
+                int nc
             );
             /*!
                 ensures
@@ -49,10 +49,10 @@ namespace dlib
             !*/
 
             void get_size (
-                int& n, 
+                int& n,
                 int& k,
                 int& nr,
-                int& nc 
+                int& nc
             ) const;
 
             const void* get_handle (
@@ -75,7 +75,7 @@ namespace dlib
         );
         /*!
             requires
-                - One of the following is true: 
+                - One of the following is true:
                     - have_same_dimensions(src, dest)
                     - src.num_samples()==1 && src.k()==dest.k() && src.nr()==1 && src.nc()==1
                     - src.num_samples()==1 && src.k()==dest.k() && src.nr()==dest.nr() && src.nc()==dest.nc()
@@ -120,7 +120,7 @@ namespace dlib
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
@@ -135,8 +135,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         );
 
         void batch_normalize_gradient(
@@ -147,8 +147,8 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         );
 
     // ------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ namespace dlib
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
@@ -172,8 +172,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         );
 
         void batch_normalize_conv_gradient(
@@ -184,8 +184,8 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         );
 
     // ------------------------------------------------------------------------------------
@@ -220,14 +220,14 @@ namespace dlib
 
             void get_gradient_for_data (
                 const bool add_to_output,
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& filters,
                 tensor& data_gradient
             );
 
             void get_gradient_for_filters (
                 const bool add_to_output,
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& data,
                 tensor& filters_gradient
             );
@@ -237,6 +237,8 @@ namespace dlib
                 const tensor& filters,
                 int stride_y,
                 int stride_x,
+                int dilation_y,
+                int dilation_x,
                 int padding_y,
                 int padding_x
             );
@@ -246,6 +248,8 @@ namespace dlib
             // These variables record the type of data given to the last call to setup().
             int stride_y;
             int stride_x;
+            int dilation_y;
+            int dilation_x;
             int padding_y;
             int padding_x;
             long data_num_samples, data_k, data_nr, data_nc;
@@ -319,10 +323,10 @@ namespace dlib
             );
 
             void get_gradient(
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& dest,
                 const tensor& src,
-                tensor& grad 
+                tensor& grad
             );
 
         private:
@@ -357,8 +361,8 @@ namespace dlib
             requires
                 - have_same_dimensions(dest, src) == true
             ensures
-                - Note that the softmax function is a vector valued function: 
-                    s(x) == exp(x)/sum(exp(x)) 
+                - Note that the softmax function is a vector valued function:
+                    s(x) == exp(x)/sum(exp(x))
                 - Computes the softmax function on src and writes the results to dest.  The
                   softmax is computed per spatial location across the different channels at
                   each location.  That is, softmax() outputs a new tensor, #dest, where
@@ -376,8 +380,8 @@ namespace dlib
         );
         /*!
             requires
-                - have_same_dimensions(dest,gradient_input) == true 
-                - have_same_dimensions(dest,grad) == true 
+                - have_same_dimensions(dest,gradient_input) == true
+                - have_same_dimensions(dest,grad) == true
                 - is_same_object(grad, dest)==false
             ensures
                 - We interpret dest as the output of softmax(dest,SRC) for some SRC tensor.
@@ -398,7 +402,7 @@ namespace dlib
                 - have_same_dimensions(dest, src) == true
             ensures
                 - for all valid i:
-                    - #dest.host()[i] == 1/(1+std::exp(-src.host()[i])) 
+                    - #dest.host()[i] == 1/(1+std::exp(-src.host()[i]))
                 - This function supports in-place operation, i.e. having
                   is_same_object(dest, src)==true
         !*/
@@ -410,8 +414,8 @@ namespace dlib
         );
         /*!
             requires
-                - have_same_dimensions(dest,gradient_input) == true 
-                - have_same_dimensions(dest,grad) == true 
+                - have_same_dimensions(dest,gradient_input) == true
+                - have_same_dimensions(dest,grad) == true
                 - is_same_object(grad,dest) == false
             ensures
                 - Recalling that dest is the output of sigmoid(dest,SRC) for some SRC tensor,
@@ -433,7 +437,7 @@ namespace dlib
                 - have_same_dimensions(dest, src) == true
             ensures
                 - for all valid i:
-                    - #dest.host()[i] == std::max(0,src.host()[i]) 
+                    - #dest.host()[i] == std::max(0,src.host()[i])
                 - This function supports in-place operation, i.e. having
                   is_same_object(dest, src)==true
         !*/
@@ -445,8 +449,46 @@ namespace dlib
         );
         /*!
             requires
-                - have_same_dimensions(dest,gradient_input) == true 
-                - have_same_dimensions(dest,grad) == true 
+                - have_same_dimensions(dest,gradient_input) == true
+                - have_same_dimensions(dest,grad) == true
+                - is_same_object(grad,dest) == false
+            ensures
+                - Recalling that dest is the output of relu(dest,SRC) for some SRC tensor,
+                  let f(SRC) == dot(gradient_input,dest)
+                - Then this function computes the gradient of f() with respect to SRC and
+                  assigns it to grad.
+                - This function supports in-place operation, i.e. having
+                  is_same_object(grad, gradient_input)==true
+        !*/
+
+    // ------------------------------------------------------------------------------------
+
+        void elu (
+            tensor& dest,
+            const tensor& src,
+            const tensor& param
+
+        );
+        /*!
+            requires
+                - have_same_dimensions(dest, src) == true
+            ensures
+                - for all valid i:
+                    - #dest.host()[i] == std::max(0,src.host()[i])
+                - This function supports in-place operation, i.e. having
+                  is_same_object(dest, src)==true
+        !*/
+
+        void elu_gradient (
+            tensor& grad,
+            const tensor& dest,
+            const tensor& gradient_input,
+            const tensor& param
+        );
+        /*!
+            requires
+                - have_same_dimensions(dest,gradient_input) == true
+                - have_same_dimensions(dest,grad) == true
                 - is_same_object(grad,dest) == false
             ensures
                 - Recalling that dest is the output of relu(dest,SRC) for some SRC tensor,
@@ -468,7 +510,7 @@ namespace dlib
                 - have_same_dimensions(dest, src) == true
             ensures
                 - for all valid i:
-                    - #dest.host()[i] == std::tanh(src.host()[i]) 
+                    - #dest.host()[i] == std::tanh(src.host()[i])
                 - This function supports in-place operation, i.e. having
                   is_same_object(dest, src)==true
         !*/
@@ -480,8 +522,8 @@ namespace dlib
         );
         /*!
             requires
-                - have_same_dimensions(dest,gradient_input) == true 
-                - have_same_dimensions(dest,grad) == true 
+                - have_same_dimensions(dest,gradient_input) == true
+                - have_same_dimensions(dest,grad) == true
                 - is_same_object(grad,dest) == false
             ensures
                 - Recalling that dest is the output of tanh(dest,SRC) for some SRC tensor,
@@ -496,7 +538,7 @@ namespace dlib
 
     // ------------------------------------------------------------------------------------
 
-    } 
+    }
 }
 
 #endif // DLIB_USE_CUDA

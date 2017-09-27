@@ -11,7 +11,7 @@
 
 namespace dlib
 {
-    namespace cpu 
+    namespace cpu
     {
 
     // -----------------------------------------------------------------------------------
@@ -123,11 +123,11 @@ namespace dlib
 
         void affine_transform(
             const rectangle& rect,
-            tensor& dest, 
-            const tensor& src1, 
-            const tensor& src2, 
-            const tensor& src3, 
-            float A, 
+            tensor& dest,
+            const tensor& src1,
+            const tensor& src2,
+            const tensor& src3,
+            float A,
             float B,
             float C
         );
@@ -155,7 +155,7 @@ namespace dlib
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
@@ -170,8 +170,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         );
 
         void batch_normalize_gradient (
@@ -182,15 +182,15 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         );
 
         void batch_normalize_conv_inference (
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
@@ -205,8 +205,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         );
 
         void batch_normalize_conv_gradient (
@@ -217,8 +217,8 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         );
 
     // -----------------------------------------------------------------------------------
@@ -276,6 +276,22 @@ namespace dlib
 
     // ----------------------------------------------------------------------------------------
 
+        void elu (
+            tensor& dest,
+            const tensor& src,
+            const tensor& param
+
+        );
+
+        void elu_gradient (
+            tensor& grad,
+            const tensor& dest,
+            const tensor& gradient_input,
+            const tensor& param
+        );
+
+    // ----------------------------------------------------------------------------------------
+
         void prelu (
             tensor& dest,
             const tensor& src,
@@ -287,7 +303,7 @@ namespace dlib
             const tensor& src,
             const tensor& gradient_input,
             const tensor& param,
-            tensor& params_grad 
+            tensor& params_grad
         );
 
     // ------------------------------------------------------------------------------------
@@ -375,10 +391,10 @@ namespace dlib
             );
 
             void get_gradient(
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& dest,
                 const tensor& src,
-                tensor& grad 
+                tensor& grad
             );
 
         private:
@@ -410,9 +426,11 @@ namespace dlib
                 const tensor& filters, /* not used but required for interface */
                 int stride_y,
                 int stride_x,
+                int dilation_y,
+                int dilation_x,
                 int padding_y,
                 int padding_x
-            ) 
+            )
             {
                 (void)data;    /* silence compiler */
                 DLIB_CASSERT(stride_y > 0 && stride_x > 0);
@@ -421,7 +439,9 @@ namespace dlib
                 last_stride_y = stride_y;
                 last_stride_x = stride_x;
                 last_padding_y = padding_y;
-                last_padding_x = padding_x;            
+                last_padding_x = padding_x;
+                last_dilation_y = dilation_y;
+                last_dilation_x = dilation_x;
             }
 
              void operator() (
@@ -440,14 +460,14 @@ namespace dlib
 
             void get_gradient_for_data (
                 const bool add_to_output,
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& filters,
                 tensor& data_gradient
             );
 
             void get_gradient_for_filters (
                 const bool add_to_output,
-                const tensor& gradient_input, 
+                const tensor& gradient_input,
                 const tensor& data,
                 tensor& filters_gradient
             );
@@ -456,6 +476,8 @@ namespace dlib
 
             long last_stride_y = 0;
             long last_stride_x = 0;
+            long last_dilation_y = 0;
+            long last_dilation_x = 0;
             long last_padding_y = 0;
             long last_padding_x = 0;
         };
@@ -473,7 +495,7 @@ namespace dlib
 
     // -----------------------------------------------------------------------------------
 
-    } 
+    }
 }
 
 #ifdef NO_MAKEFILE

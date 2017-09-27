@@ -6,6 +6,7 @@
 #include "tensor_tools.h"
 #include "../string.h"
 #include <atomic>
+#include <cudnn.h>
 
 namespace dlib
 {
@@ -65,7 +66,7 @@ namespace dlib { namespace tt
 #ifdef DLIB_USE_CUDA
         cuda::dot_prods(out, lhs, rhs);
 #else
-        out = sum_cols(pointwise_multiply(mat(lhs), mat(rhs))); 
+        out = sum_cols(pointwise_multiply(mat(lhs), mat(rhs)));
 #endif
     }
 
@@ -111,7 +112,7 @@ namespace dlib { namespace tt
     }
 
     void scale_rows2 (
-        float beta, 
+        float beta,
         tensor& out,
         const tensor& m1,
         const tensor& m2,
@@ -122,7 +123,7 @@ namespace dlib { namespace tt
         DLIB_CASSERT(have_same_dimensions(out,m1));
         DLIB_CASSERT(have_same_dimensions(out,m2));
         DLIB_CASSERT(have_same_dimensions(v1,v2));
-        DLIB_CASSERT(is_vector(mat(v1))); 
+        DLIB_CASSERT(is_vector(mat(v1)));
         DLIB_CASSERT(v1.size() == m1.num_samples());
 
 #ifdef DLIB_USE_CUDA
@@ -229,7 +230,7 @@ namespace dlib { namespace tt
     tensor_rand::
     tensor_rand(
         unsigned long long seed
-    ) 
+    )
 #ifdef DLIB_USE_CUDA
     :rnd(seed){}
 #else
@@ -247,7 +248,7 @@ namespace dlib { namespace tt
 #ifdef DLIB_USE_CUDA
         rnd.fill_gaussian(data, mean, stddev);
 #else
-        for (auto& x : data) 
+        for (auto& x : data)
             x = rnd.get_random_gaussian()*stddev + mean;
 #endif
     }
@@ -260,7 +261,7 @@ namespace dlib { namespace tt
 #ifdef DLIB_USE_CUDA
         rnd.fill_uniform(data);
 #else
-        for (auto& x : data) 
+        for (auto& x : data)
             x = rnd.get_random_float();
 #endif
     }
@@ -417,11 +418,11 @@ namespace dlib { namespace tt
 
     void affine_transform(
         const rectangle& rect,
-        tensor& dest, 
-        const tensor& src1, 
-        const tensor& src2, 
-        const tensor& src3, 
-        float A, 
+        tensor& dest,
+        const tensor& src1,
+        const tensor& src2,
+        const tensor& src3,
+        float A,
         float B,
         float C
     )
@@ -514,7 +515,7 @@ namespace dlib { namespace tt
         const double eps,
         resizable_tensor& dest,
         const tensor& src,
-        const tensor& gamma, 
+        const tensor& gamma,
         const tensor& beta,
         const tensor& running_means,
         const tensor& running_variances
@@ -536,8 +537,8 @@ namespace dlib { namespace tt
         resizable_tensor& running_means,
         resizable_tensor& running_variances,
         const tensor& src,
-        const tensor& gamma, 
-        const tensor& beta 
+        const tensor& gamma,
+        const tensor& beta
     )
     {
 #ifdef DLIB_USE_CUDA
@@ -555,11 +556,11 @@ namespace dlib { namespace tt
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
     )
     {
-             
+
 #ifdef DLIB_USE_CUDA
         cuda::batch_normalize_gradient(eps,gradient_input, means, invstds, src, gamma, src_grad, gamma_grad, beta_grad);
 #else
@@ -573,7 +574,7 @@ namespace dlib { namespace tt
         const double eps,
         resizable_tensor& dest,
         const tensor& src,
-        const tensor& gamma, 
+        const tensor& gamma,
         const tensor& beta,
         const tensor& running_means,
         const tensor& running_variances
@@ -595,8 +596,8 @@ namespace dlib { namespace tt
         resizable_tensor& running_means,
         resizable_tensor& running_variances,
         const tensor& src,
-        const tensor& gamma, 
-        const tensor& beta 
+        const tensor& gamma,
+        const tensor& beta
     )
     {
 #ifdef DLIB_USE_CUDA
@@ -614,11 +615,11 @@ namespace dlib { namespace tt
         const tensor& src,
         const tensor& gamma,
         tensor& src_grad,
-        tensor& gamma_grad, 
-        tensor& beta_grad 
+        tensor& gamma_grad,
+        tensor& beta_grad
     )
     {
-             
+
 #ifdef DLIB_USE_CUDA
         cuda::batch_normalize_conv_gradient(eps,gradient_input, means, invstds, src, gamma, src_grad, gamma_grad, beta_grad);
 #else
@@ -797,6 +798,44 @@ namespace dlib { namespace tt
 
 // ----------------------------------------------------------------------------------------
 
+    void elu (
+        tensor& dest,
+        const tensor& src,
+        const tensor& param
+
+    )
+    {
+#ifdef DLIB_USE_CUDA
+#if CUDNN_MAJOR >= 6
+        cuda::elu(dest,src,param);
+#else
+		cuda::elu_cuda(dest,src,param);
+#endif
+#else
+        cpu::elu(dest,src,param);
+#endif
+    }
+
+    void elu_gradient (
+        tensor& grad,
+        const tensor& dest,
+        const tensor& gradient_input,
+        const tensor& param
+    )
+    {
+#ifdef DLIB_USE_CUDA
+#ifdef CUDNN_MAJOR >= 6
+        cuda::elu_gradient(grad, dest, gradient_input,param);
+#else
+		cuda::elu_gradient_cuda(grad,dest,gradient_input,param);
+#endif
+#else
+        cpu::elu_gradient(grad, dest, gradient_input,param);
+#endif
+    }
+
+// ----------------------------------------------------------------------------------------
+
     void prelu (
         tensor& dest,
         const tensor& src,
@@ -815,7 +854,7 @@ namespace dlib { namespace tt
         const tensor& src,
         const tensor& gradient_input,
         const tensor& param,
-        tensor& params_grad 
+        tensor& params_grad
     )
     {
 #ifdef DLIB_USE_CUDA

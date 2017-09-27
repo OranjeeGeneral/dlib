@@ -1267,6 +1267,56 @@ namespace dlib
 
     // ----------------------------------------------------------------------------------------
 
+        __global__ void _cuda_elu(const float* s, float* d, size_t n, const float* pp)
+        {
+            const float p = *pp;
+            for (auto i : grid_stride_range(0, n))
+            {
+				float temp = s[i] < 0.0 ? 0.0 : s[i];
+				float temp2 = s[i] < 0.0 ? s[i] : 0.0;
+				d[i] = temp + p * (::exp(temp2) - 1.0);
+            }
+        }
+
+        void elu_cuda (
+            tensor& dest,
+            const tensor& src,
+            const tensor& param
+        )
+        {
+            launch_kernel(_cuda_elu, max_jobs(dest.size()), 
+                src.device(), dest.device(), src.size(), param.device());
+        }
+
+    // ----------------------------------------------------------------------------------------
+
+        __global__ void _cuda_elu_gradient(float* out, const float* s, const float* gi, size_t n, const float* pp)
+        {
+            const float p = *pp;
+            for(auto i : grid_stride_range(0, n))
+            {
+
+				if (s[i] > 0)
+					out[i] += gi[i];
+				else
+					out[i] += gi[i] * (s[i] + p);
+            }
+        }
+
+        void elu_gradient_cuda (
+            tensor& grad,
+            const tensor& src,
+            const tensor& gradient_input,
+            const tensor& param
+        )
+        {
+            launch_kernel(_cuda_elu_gradient, max_jobs(grad.size()), 
+                grad.device(), src.device(), gradient_input.device(), grad.size(),
+                param.device());
+        }
+
+    // ----------------------------------------------------------------------------------------
+
         __global__ void _cuda_resize_bilinear(size_t dsize, size_t dchan_size, size_t dnc, float* d, 
                                               size_t schan_size, int snr, int snc, const float* s, 
                                               const float x_scale, const float y_scale)

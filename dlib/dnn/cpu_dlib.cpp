@@ -12,7 +12,7 @@
 
 namespace dlib
 {
-    namespace cpu 
+    namespace cpu
     {
 
     // -----------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ namespace dlib
                   (src.num_samples()==1 && src.k()==dest.k() && src.nr()==dest.nr() && src.nc()==dest.nc()) ||
                   (src.num_samples()==1 && src.k()==1 && src.nr()==dest.nr() && src.nc()==dest.nc()) ||
                   (src.num_samples()==dest.num_samples() && src.k()==1 && src.nr()==1 && src.nc()==1)) &&
-                  is_same_object(src,dest) == false , 
+                  is_same_object(src,dest) == false ,
                     "\n\t dest.num_samples(): " << dest.num_samples()
                     <<"\n\t dest.k():           " << dest.k()
                     <<"\n\t dest.nr():          " << dest.nr()
@@ -240,9 +240,9 @@ namespace dlib
                             float v2 = 0;
 
                             // if this index is inside src1
-                            if (n < src1.num_samples() && 
-                                k < src1.k() && 
-                                r < src1.nr() && 
+                            if (n < src1.num_samples() &&
+                                k < src1.k() &&
+                                r < src1.nr() &&
                                 c < src1.nc() )
                             {
                                 const auto s_idx = ((n*src1.k() + k)*src1.nr() + r)*src1.nc() + c;
@@ -250,9 +250,9 @@ namespace dlib
                             }
 
                             // if this index is inside src2
-                            if (n < src2.num_samples() && 
-                                k < src2.k() && 
-                                r < src2.nr() && 
+                            if (n < src2.num_samples() &&
+                                k < src2.k() &&
+                                r < src2.nr() &&
                                 c < src2.nc() )
                             {
                                 const auto s_idx = ((n*src2.k() + k)*src2.nr() + r)*src2.nc() + c;
@@ -310,9 +310,9 @@ namespace dlib
                             float v2 = 0;
 
                             // if this index is inside src1
-                            if (n < src1.num_samples() && 
-                                k < src1.k() && 
-                                r < src1.nr() && 
+                            if (n < src1.num_samples() &&
+                                k < src1.k() &&
+                                r < src1.nr() &&
                                 c < src1.nc() )
                             {
                                 const auto s_idx = ((n*src1.k() + k)*src1.nr() + r)*src1.nc() + c;
@@ -320,9 +320,9 @@ namespace dlib
                             }
 
                             // if this index is inside src2
-                            if (n < src2.num_samples() && 
-                                k < src2.k() && 
-                                r < src2.nr() && 
+                            if (n < src2.num_samples() &&
+                                k < src2.k() &&
+                                r < src2.nr() &&
                                 c < src2.nc() )
                             {
                                 const auto s_idx = ((n*src2.k() + k)*src2.nr() + r)*src2.nc() + c;
@@ -380,7 +380,7 @@ namespace dlib
                   grad.nr() == 1 &&
                   grad.nc() == 1 &&
                   gradient_input.k() == grad.k() &&
-                  gradient_input.size() > 0 && 
+                  gradient_input.size() > 0 &&
                   is_same_object(grad,gradient_input) == false
                   );
 
@@ -565,11 +565,11 @@ namespace dlib
 
         void affine_transform(
             const rectangle& rect,
-            tensor& dest, 
-            const tensor& src1, 
-            const tensor& src2, 
-            const tensor& src3, 
-            float A, 
+            tensor& dest,
+            const tensor& src1,
+            const tensor& src2,
+            const tensor& src3,
+            float A,
             float B,
             float C
         )
@@ -650,41 +650,41 @@ namespace dlib
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
         )
         {
             DLIB_CASSERT(
-                gamma.num_samples() == 1 && 
+                gamma.num_samples() == 1 &&
                 gamma.nr() == src.nr() &&
                 gamma.nc() == src.nc() &&
                 gamma.k()  == src.k() &&
                 have_same_dimensions(gamma, beta) &&
                 have_same_dimensions(gamma, running_means) &&
-                have_same_dimensions(gamma, running_variances) && 
-                eps > 0, 
-                "\ngamma.num_samples(): " << gamma.num_samples() << 
-                "\ngamma.k():  " << gamma.k() << 
-                "\ngamma.nr(): " << gamma.nr() << 
-                "\ngamma.nc(): " << gamma.nc() << 
-                "\nbeta.num_samples(): " << beta.num_samples() << 
-                "\nbeta.k():   " << beta.k() << 
-                "\nbeta.nr():  " << beta.nr() << 
-                "\nbeta.nc():  " << beta.nc() << 
-                "\nrunning_means.num_samples(): " << running_means.num_samples() << 
-                "\nrunning_means.k():   " << running_means.k() << 
-                "\nrunning_means.nr():  " << running_means.nr() << 
-                "\nrunning_means.nc():  " << running_means.nc() << 
-                "\nrunning_variances.num_samples(): " << running_variances.num_samples() << 
-                "\nrunning_variances.k():   " << running_variances.k() << 
-                "\nrunning_variances.nr():  " << running_variances.nr() << 
-                "\nrunning_variances.nc():  " << running_variances.nc() << 
-                "\nsrc.k():   " << src.k() << 
-                "\nsrc.nr():  " << src.nr() << 
+                have_same_dimensions(gamma, running_variances) &&
+                eps > 0,
+                "\ngamma.num_samples(): " << gamma.num_samples() <<
+                "\ngamma.k():  " << gamma.k() <<
+                "\ngamma.nr(): " << gamma.nr() <<
+                "\ngamma.nc(): " << gamma.nc() <<
+                "\nbeta.num_samples(): " << beta.num_samples() <<
+                "\nbeta.k():   " << beta.k() <<
+                "\nbeta.nr():  " << beta.nr() <<
+                "\nbeta.nc():  " << beta.nc() <<
+                "\nrunning_means.num_samples(): " << running_means.num_samples() <<
+                "\nrunning_means.k():   " << running_means.k() <<
+                "\nrunning_means.nr():  " << running_means.nr() <<
+                "\nrunning_means.nc():  " << running_means.nc() <<
+                "\nrunning_variances.num_samples(): " << running_variances.num_samples() <<
+                "\nrunning_variances.k():   " << running_variances.k() <<
+                "\nrunning_variances.nr():  " << running_variances.nr() <<
+                "\nrunning_variances.nc():  " << running_variances.nc() <<
+                "\nsrc.k():   " << src.k() <<
+                "\nsrc.nr():  " << src.nr() <<
                 "\nsrc.nc():  " << src.nc() <<
-                "\neps:  " << eps 
+                "\neps:  " << eps
             );
             dest.copy_size(src);
 
@@ -716,8 +716,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         )
         {
             DLIB_CASSERT(0 <= averaging_factor && averaging_factor <= 1, "averaging_factor: " << averaging_factor);
@@ -725,24 +725,24 @@ namespace dlib
             DLIB_CASSERT(averaging_factor==1 || have_same_dimensions(running_variances,invstds));
             DLIB_CASSERT(
                 src.num_samples() > 1 &&
-                gamma.num_samples() == 1 && 
-                beta.num_samples() == 1 && 
+                gamma.num_samples() == 1 &&
+                beta.num_samples() == 1 &&
                 gamma.nr() == beta.nr() && beta.nr() == src.nr() &&
                 gamma.nc() == beta.nc() && beta.nc() == src.nc() &&
                 gamma.k()  == beta.k()  && beta.k() == src.k() &&
-                eps > 0, 
-                "\ngamma.num_samples(): " << gamma.num_samples() << 
-                "\ngamma.k():  " << gamma.k() << 
-                "\ngamma.nr(): " << gamma.nr() << 
-                "\ngamma.nc(): " << gamma.nc() << 
-                "\nbeta.num_samples(): " << beta.num_samples() << 
-                "\nbeta.k():   " << beta.k() << 
-                "\nbeta.nr():  " << beta.nr() << 
-                "\nbeta.nc():  " << beta.nc() << 
-                "\nsrc.k():   " << src.k() << 
-                "\nsrc.nr():  " << src.nr() << 
+                eps > 0,
+                "\ngamma.num_samples(): " << gamma.num_samples() <<
+                "\ngamma.k():  " << gamma.k() <<
+                "\ngamma.nr(): " << gamma.nr() <<
+                "\ngamma.nc(): " << gamma.nc() <<
+                "\nbeta.num_samples(): " << beta.num_samples() <<
+                "\nbeta.k():   " << beta.k() <<
+                "\nbeta.nr():  " << beta.nr() <<
+                "\nbeta.nc():  " << beta.nc() <<
+                "\nsrc.k():   " << src.k() <<
+                "\nsrc.nr():  " << src.nr() <<
                 "\nsrc.nc():  " << src.nc() <<
-                "\neps:  " << eps 
+                "\neps:  " << eps
             );
 
             dest.copy_size(src);
@@ -771,7 +771,7 @@ namespace dlib
             // copy data back to host
             invstds.host(); means.host();
 
-            // compute variances 
+            // compute variances
             running_variances.copy_size(invstds);
             auto rvar = running_variances.host();
             // This scale makes the running variances unbiased.
@@ -789,8 +789,8 @@ namespace dlib
 
             p_src = src.host();
             auto p_dest = dest.host();
-            const auto p_gamma = gamma.host();   
-            const auto p_beta = beta.host();   
+            const auto p_gamma = gamma.host();
+            const auto p_beta = beta.host();
             for (long n = 0; n < src.num_samples(); ++n)
             {
                 for (long i = 0; i < num; ++i)
@@ -802,7 +802,7 @@ namespace dlib
                 }
             }
 
-            // now keep track of the running means 
+            // now keep track of the running means
             running_means.copy_size(means);
             if (averaging_factor != 1)
                 running_means = (1-averaging_factor)*mat(running_means) + averaging_factor*mat(means);
@@ -818,8 +818,8 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         )
         {
 
@@ -838,9 +838,9 @@ namespace dlib
             gamma_grad = 0;
             auto p_grad = gradient_input.host();
             auto p_src = src.host();
-            const auto p_gamma = gamma.host();   
-            const auto p_gamma_grad = gamma_grad.host();   
-            const auto p_beta_grad = beta_grad.host();   
+            const auto p_gamma = gamma.host();
+            const auto p_gamma_grad = gamma_grad.host();
+            const auto p_beta_grad = beta_grad.host();
             const auto p_invstds = invstds.host();
             const auto p_means = means.host();
 
@@ -893,8 +893,8 @@ namespace dlib
                 {
                     const float dx = *p_grad * p_gamma[i];
 
-                    *p_src_grad += dx*p_invstds[i] + 
-                        p_dvars[i] *2*(*p_src - p_means[i])*invnum + 
+                    *p_src_grad += dx*p_invstds[i] +
+                        p_dvars[i] *2*(*p_src - p_means[i])*invnum +
                         p_dmeans[i]*invnum;
 
 
@@ -911,41 +911,41 @@ namespace dlib
             const double eps,
             resizable_tensor& dest,
             const tensor& src,
-            const tensor& gamma, 
+            const tensor& gamma,
             const tensor& beta,
             const tensor& running_means,
             const tensor& running_variances
         )
         {
             DLIB_CASSERT(
-                gamma.num_samples() == 1 && 
+                gamma.num_samples() == 1 &&
                 gamma.nr() == 1 &&
                 gamma.nc() == 1 &&
                 gamma.k()  == src.k() &&
                 have_same_dimensions(gamma, beta) &&
                 have_same_dimensions(gamma, running_means) &&
                 have_same_dimensions(gamma, running_variances) &&
-                eps > 0, 
-                "\ngamma.num_samples(): " << gamma.num_samples() << 
-                "\ngamma.k():  " << gamma.k() << 
-                "\ngamma.nr(): " << gamma.nr() << 
-                "\ngamma.nc(): " << gamma.nc() << 
-                "\nbeta.num_samples(): " << beta.num_samples() << 
-                "\nbeta.k():   " << beta.k() << 
-                "\nbeta.nr():  " << beta.nr() << 
-                "\nbeta.nc():  " << beta.nc() << 
-                "\nrunning_means.num_samples(): " << running_means.num_samples() << 
-                "\nrunning_means.k():   " << running_means.k() << 
-                "\nrunning_means.nr():  " << running_means.nr() << 
-                "\nrunning_means.nc():  " << running_means.nc() << 
-                "\nrunning_variances.num_samples(): " << running_variances.num_samples() << 
-                "\nrunning_variances.k():   " << running_variances.k() << 
-                "\nrunning_variances.nr():  " << running_variances.nr() << 
-                "\nrunning_variances.nc():  " << running_variances.nc() << 
-                "\nsrc.k():   " << src.k() << 
-                "\nsrc.nr():  " << src.nr() << 
+                eps > 0,
+                "\ngamma.num_samples(): " << gamma.num_samples() <<
+                "\ngamma.k():  " << gamma.k() <<
+                "\ngamma.nr(): " << gamma.nr() <<
+                "\ngamma.nc(): " << gamma.nc() <<
+                "\nbeta.num_samples(): " << beta.num_samples() <<
+                "\nbeta.k():   " << beta.k() <<
+                "\nbeta.nr():  " << beta.nr() <<
+                "\nbeta.nc():  " << beta.nc() <<
+                "\nrunning_means.num_samples(): " << running_means.num_samples() <<
+                "\nrunning_means.k():   " << running_means.k() <<
+                "\nrunning_means.nr():  " << running_means.nr() <<
+                "\nrunning_means.nc():  " << running_means.nc() <<
+                "\nrunning_variances.num_samples(): " << running_variances.num_samples() <<
+                "\nrunning_variances.k():   " << running_variances.k() <<
+                "\nrunning_variances.nr():  " << running_variances.nr() <<
+                "\nrunning_variances.nc():  " << running_variances.nc() <<
+                "\nsrc.k():   " << src.k() <<
+                "\nsrc.nr():  " << src.nr() <<
                 "\nsrc.nc():  " << src.nc() <<
-                "\neps:  " << eps 
+                "\neps:  " << eps
             );
             dest.copy_size(src);
 
@@ -981,8 +981,8 @@ namespace dlib
             resizable_tensor& running_means,
             resizable_tensor& running_variances,
             const tensor& src,
-            const tensor& gamma, 
-            const tensor& beta 
+            const tensor& gamma,
+            const tensor& beta
         )
         {
             DLIB_CASSERT(0 <= averaging_factor && averaging_factor <= 1, "averaging_factor: " << averaging_factor);
@@ -990,26 +990,26 @@ namespace dlib
             DLIB_CASSERT(averaging_factor==1 || have_same_dimensions(running_variances,invstds));
             DLIB_CASSERT(
                 src.num_samples() > 1 &&
-                gamma.num_samples() == 1 && 
-                beta.num_samples() == 1 && 
-                gamma.nr() == 1 && 
-                beta.nr() == 1 && 
-                gamma.nc() == 1 && 
-                beta.nc() == 1 && 
+                gamma.num_samples() == 1 &&
+                beta.num_samples() == 1 &&
+                gamma.nr() == 1 &&
+                beta.nr() == 1 &&
+                gamma.nc() == 1 &&
+                beta.nc() == 1 &&
                 gamma.k()  == beta.k()  && beta.k() == src.k() &&
-                eps > 0, 
-                "\ngamma.num_samples(): " << gamma.num_samples() << 
-                "\ngamma.k():  " << gamma.k() << 
-                "\ngamma.nr(): " << gamma.nr() << 
-                "\ngamma.nc(): " << gamma.nc() << 
-                "\nbeta.num_samples(): " << beta.num_samples() << 
-                "\nbeta.k():   " << beta.k() << 
-                "\nbeta.nr():  " << beta.nr() << 
-                "\nbeta.nc():  " << beta.nc() << 
-                "\nsrc.k():   " << src.k() << 
-                "\nsrc.nr():  " << src.nr() << 
+                eps > 0,
+                "\ngamma.num_samples(): " << gamma.num_samples() <<
+                "\ngamma.k():  " << gamma.k() <<
+                "\ngamma.nr(): " << gamma.nr() <<
+                "\ngamma.nc(): " << gamma.nc() <<
+                "\nbeta.num_samples(): " << beta.num_samples() <<
+                "\nbeta.k():   " << beta.k() <<
+                "\nbeta.nr():  " << beta.nr() <<
+                "\nbeta.nc():  " << beta.nc() <<
+                "\nsrc.k():   " << src.k() <<
+                "\nsrc.nr():  " << src.nr() <<
                 "\nsrc.nc():  " << src.nc()  <<
-                "\neps:  " << eps 
+                "\neps:  " << eps
             );
 
             dest.copy_size(src);
@@ -1021,8 +1021,8 @@ namespace dlib
             invstds = 0;
             const auto p_invstds = invstds.host();
             const auto p_means = means.host();
-            const auto p_gamma = gamma.host();   
-            const auto p_beta = beta.host();   
+            const auto p_gamma = gamma.host();
+            const auto p_beta = beta.host();
             auto p_src = src.host();
             const long num = src.nr()*src.nc();
             // compute means, and sum of squares
@@ -1044,7 +1044,7 @@ namespace dlib
             invstds.host(); means.host();
 
             p_src = src.host();
-            // compute variances 
+            // compute variances
             running_variances.copy_size(invstds);
             auto rvar = running_variances.host();
             // This scale makes the running variances unbiased.
@@ -1076,7 +1076,7 @@ namespace dlib
                 }
             }
 
-            // now keep track of the running means 
+            // now keep track of the running means
             running_means.copy_size(means);
             if (averaging_factor != 1)
                 running_means = (1-averaging_factor)*mat(running_means) + averaging_factor*mat(means);
@@ -1092,8 +1092,8 @@ namespace dlib
             const tensor& src,
             const tensor& gamma,
             tensor& src_grad,
-            tensor& gamma_grad, 
-            tensor& beta_grad 
+            tensor& gamma_grad,
+            tensor& beta_grad
         )
         {
 
@@ -1113,9 +1113,9 @@ namespace dlib
 
             auto p_grad = gradient_input.host();
             auto p_src = src.host();
-            const auto p_gamma = gamma.host();   
-            const auto p_gamma_grad = gamma_grad.host();   
-            const auto p_beta_grad = beta_grad.host();   
+            const auto p_gamma = gamma.host();
+            const auto p_gamma_grad = gamma_grad.host();
+            const auto p_beta_grad = beta_grad.host();
             const auto p_invstds = invstds.host();
             const auto p_means = means.host();
 
@@ -1177,8 +1177,8 @@ namespace dlib
                     {
                         const float dx = *p_grad * p_gamma[k];
 
-                        *p_src_grad += dx*p_invstds[k] + 
-                            p_dvars[k]*2*(*p_src - p_means[k])*invnum + 
+                        *p_src_grad += dx*p_invstds[k] +
+                            p_dvars[k]*2*(*p_src - p_means[k])*invnum +
                             p_dmeans[k]*invnum;
 
 
@@ -1394,6 +1394,55 @@ namespace dlib
         }
 
     // ----------------------------------------------------------------------------------------
+        void elu (
+            tensor& dest,
+            const tensor& src,
+            const tensor& param
+        )
+        {
+            const float p = param.host()[0];
+            const float* s = src.host();
+            float* d = dest.host();
+            for (size_t i = 0; i < dest.size(); ++i)
+            {
+                d[i] = std::max(s[i],0.0f) + p * (expf(std::min(s[i],0.0f)) - 1.0f);
+            }
+        }
+
+        void elu_gradient (
+            tensor& grad,
+            const tensor& dest,
+            const tensor& gradient_input,
+            const tensor& param
+        )
+        {
+            const float* gi = gradient_input.host();
+            const float* in = dest.host();
+            const float p = param.host()[0];
+            float* out = grad.host();
+            if (is_same_object(grad, gradient_input))
+            {
+                for (size_t i = 0; i < dest.size(); ++i)
+                {
+                    if (in[i] > 0)
+                        out[i] = gi[i];
+                    else
+                        out[i] = gi[i] * (in[i] + p);
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < dest.size(); ++i)
+                {
+                    if (in[i] > 0)
+                        out[i] += gi[i];
+                    else
+                        out[i] += gi[i] * (in[i] + p);
+                }
+            }
+        }
+
+    // ------------------------------------------------------------------------------------
 
         void prelu (
             tensor& dest,
@@ -1418,7 +1467,7 @@ namespace dlib
             const tensor& src,
             const tensor& gradient_input,
             const tensor& param,
-            tensor& params_grad 
+            tensor& params_grad
         )
         {
             DLIB_CASSERT(is_same_object(grad, gradient_input) == false);
@@ -1715,10 +1764,10 @@ namespace dlib
         }
 
         void pooling::get_gradient(
-            const tensor& gradient_input, 
+            const tensor& gradient_input,
             const tensor& dest,
             const tensor& src,
-            tensor& grad 
+            tensor& grad
         )
         {
             DLIB_CASSERT(have_same_dimensions(gradient_input,dest));
@@ -1818,12 +1867,12 @@ namespace dlib
             const long out_nr = 1+(data.nr()+2*padding_y-filter_nr)/stride_y;
             const long out_nc = 1+(data.nc()+2*padding_x-filter_nc)/stride_x;
 
-            output.set_size(out_nr*out_nc, 
+            output.set_size(out_nr*out_nc,
                             data.k()*filter_nr*filter_nc);
             DLIB_CASSERT(output.size() != 0);
             float* t = &output(0,0);
 
-            // now fill in the Toeplitz output matrix for the n-th sample in data.  
+            // now fill in the Toeplitz output matrix for the n-th sample in data.
             size_t cnt = 0;
             const long max_r = data.nr() + padding_y-(filter_nr-1);
             const long max_c = data.nc() + padding_x-(filter_nc-1);
@@ -1871,7 +1920,7 @@ namespace dlib
             DLIB_CASSERT(output.size() != 0);
             const float* t = &output(0,0);
 
-            // now fill in the Toeplitz output matrix for the n-th sample in data.  
+            // now fill in the Toeplitz output matrix for the n-th sample in data.
             const long max_r = data.nr() + padding_y-(filter_nr-1);
             const long max_c = data.nc() + padding_x-(filter_nc-1);
             for (long r = -padding_y; r < max_r; r+=stride_y)
@@ -1904,6 +1953,7 @@ namespace dlib
         )
         {
             DLIB_CASSERT(last_stride_y > 0 && last_stride_x > 0, "You must call setup() before calling this function.");
+
             output.set_size(data.num_samples(),
                             filters.num_samples(),
                             1+(data.nr()+2*last_padding_y-filters.nr())/last_stride_y,
@@ -1932,7 +1982,6 @@ namespace dlib
             DLIB_CASSERT(output.nr() == 1+(data.nr()+2*last_padding_y-filters.nr())/last_stride_y);
             DLIB_CASSERT(output.nc() == 1+(data.nc()+2*last_padding_x-filters.nc())/last_stride_x);
 
-
             matrix<float> temp;
             for (long n = 0; n < data.num_samples(); ++n)
             {
@@ -1940,7 +1989,7 @@ namespace dlib
 
                 if (add_to_output)
                     output.add_to_sample(n, mat(filters)*trans(temp));
-                else 
+                else
                     output.set_sample(n, mat(filters)*trans(temp));
             }
         }
@@ -1950,7 +1999,7 @@ namespace dlib
         void tensor_conv::
         get_gradient_for_data (
             const bool add_to_output,
-            const tensor& gradient_input, 
+            const tensor& gradient_input,
             const tensor& filters,
             tensor& data_gradient
         )
@@ -1963,7 +2012,7 @@ namespace dlib
                 auto gi = mat(gradient_input.host()+gradient_input.k()*gradient_input.nr()*gradient_input.nc()*n,
                               gradient_input.k(),
                               gradient_input.nr()*gradient_input.nc());
-                                    
+
 
                 temp = trans(gi)*mat(filters);
                 col2img(temp, data_gradient, n, filters.nr(), filters.nc(), last_stride_y, last_stride_x, last_padding_y, last_padding_x);
@@ -1975,7 +2024,7 @@ namespace dlib
         void tensor_conv::
         get_gradient_for_filters (
             const bool add_to_output,
-            const tensor& gradient_input, 
+            const tensor& gradient_input,
             const tensor& data,
             tensor& filters_gradient
         )
@@ -2048,7 +2097,7 @@ namespace dlib
     // ------------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------------
 
-    } 
+    }
 }
 
 
