@@ -1576,7 +1576,6 @@ namespace dlib
 
             float* dest_p = dest.device() + dest_k_offset * dest.nc() * dest.nr();
             const float* src_p = src.device() + src_k_offset * src.nc() * src.nr();;
-            std::cerr << "add_to " << add_to << "\n";
             if (add_to)
             {
                 launch_kernel(_cuda_copy_tensor_add_to, max_jobs(dest.size()), 
