@@ -1565,15 +1565,18 @@ namespace dlib
             const size_t src_sample_size = static_cast<size_t>(src.nc() * src.nr() * src.k());
 
             const size_t block_size = count_k * dest.nc() * dest.nr();
-
+            const size_t src_block_size = count_k * src.nc() * src.nr();
+            std::cerr << "Dest = " << dest.num_samples() << " " << dest.nc() << " " << dest.nr() << "\n";
+            std::cerr << "Src = " << src.num_samples() << " " << src.nc() << " " << src.nr() << "\n";
             DLIB_CASSERT(dest.num_samples() == src.num_samples() &&
-                         dest.nc() == src.nc() && dest.nr() == src.nr(), "All sources should fit into dest tensor size");
+                         dest.nc() <= src.nc() && dest.nr() <= src.nr(), "All sources should fit into dest tensor size");
             DLIB_CASSERT(dest.k() - dest_k_offset >= count_k, "Not enough space in dest tensor");
             DLIB_CASSERT(src.k() - src_k_offset >= count_k, "Not enough space in src tensor");
+            
 
             float* dest_p = dest.device() + dest_k_offset * dest.nc() * dest.nr();
             const float* src_p = src.device() + src_k_offset * src.nc() * src.nr();;
-
+            std::cerr << "add_to " << add_to << "\n";
             if (add_to)
             {
                 launch_kernel(_cuda_copy_tensor_add_to, max_jobs(dest.size()), 

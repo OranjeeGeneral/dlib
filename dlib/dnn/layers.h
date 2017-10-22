@@ -47,8 +47,8 @@ namespace dlib
         static_assert(_nc > 0, "The number of columns in a filter must be > 0");
         static_assert(_stride_y > 0, "The filter stride must be > 0");
         static_assert(_stride_x > 0, "The filter stride must be > 0");
-        static_assert(0 <= _padding_y && _padding_y < _nr, "The padding must be smaller than the filter size.");
-        static_assert(0 <= _padding_x && _padding_x < _nc, "The padding must be smaller than the filter size.");
+  //      static_assert(0 <= _padding_y && _padding_y < _nr, "The padding must be smaller than the filter size.");
+  //      static_assert(0 <= _padding_x && _padding_x < _nc, "The padding must be smaller than the filter size.");
         static_assert(_dilation_y > 0, "The dilation stride must be > 0");
         static_assert(_dilation_x > 0, "The dilation stride must be > 0");
         con_(
