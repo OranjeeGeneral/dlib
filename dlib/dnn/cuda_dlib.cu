@@ -1564,12 +1564,16 @@ namespace dlib
             const size_t dest_sample_size = static_cast<size_t>(dest.nc() * dest.nr() * dest.k());
             const size_t src_sample_size = static_cast<size_t>(src.nc() * src.nr() * src.k());
 
-            const size_t block_size = count_k * dest.nc() * dest.nr();
+            size_t block_size = count_k * dest.nc() * dest.nr();
             const size_t src_block_size = count_k * src.nc() * src.nr();
-            std::cerr << "Dest = " << dest.num_samples() << " " << dest.nc() << " " << dest.nr() << "\n";
-            std::cerr << "Src = " << src.num_samples() << " " << src.nc() << " " << src.nr() << "\n";
-            DLIB_CASSERT(dest.num_samples() == src.num_samples() &&
-                         dest.nc() <= src.nc() && dest.nr() <= src.nr(), "All sources should fit into dest tensor size");
+//            if (src_block_size < block_size)
+//                block_size = src_block_size;
+//            std::cerr << "Dest = " << dest.num_samples() << " " << dest.nc() << " " << dest.nr() << "\n";
+//            std::cerr << "Src = " << src.num_samples() << " " << src.nc() << " " << src.nr() << "\n";
+//            DLIB_CASSERT(dest.num_samples() == src.num_samples() &&
+//                         dest.nc() <= src.nc() && dest.nr() <= src.nr(), "All sources should fit into dest tensor size");
+            DLIB_CASSERT(dest.num_samples() == src.num_samples(), "All sources should fit into dest tensor size");
+
             DLIB_CASSERT(dest.k() - dest_k_offset >= count_k, "Not enough space in dest tensor");
             DLIB_CASSERT(src.k() - src_k_offset >= count_k, "Not enough space in src tensor");
             
