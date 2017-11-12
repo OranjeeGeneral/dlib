@@ -30,6 +30,8 @@ struct image_info
 
 typedef std::pair<matrix<rgb_pixel>, matrix<uint16_t>> training_sample;
 
+const int training_size = 259;
+
 // ----------------------------------------------------------------------------------------
 
 template <typename SUBNET> using fire_expand_a1 = relu<con<64, 1, 1, 1, 1, 1, 1, SUBNET>>;
@@ -115,8 +117,7 @@ rectangle make_random_cropping_rect_resnet(
 )
 {
     // figure out what rectangle we want to crop from the image
-    auto size = 259;
-    rectangle rect(size, size);
+    rectangle rect(training_size, training_size);
     // randomly shift the box around
 	int xOffset = 0;
 	int yOffset = 0;
@@ -161,12 +162,15 @@ std::vector<image_info> get_segmentation_training_data(const std::string& image_
 			}
 			else {
 				cerr << "Error found more label images than real images\n";
-			}
+                results.clear();
+                return results;			
+            }
 		}
 	}
 	if (index < results.size())
 	{
 		cerr << "Found less label images than real images\n";
+        results.clear();
 	}
 	return results;
 }
@@ -181,7 +185,7 @@ void randomly_crop_image (
 {
     const auto rect = make_random_cropping_rect_resnet(input_image, rnd);
 
-    const chip_details chip_details(rect, chip_dims(259, 259));
+    const chip_details chip_details(rect, chip_dims(training_size, training_size));
 
     // Crop the input image.
     extract_image_chip(input_image, chip_details, crop.first);
@@ -263,8 +267,6 @@ int main(int argc, char** argv) try
             load_image(input_image, image_info.image_filename);
             load_image(index_label_image, image_info.label_filename);
             randomly_crop_image(input_image, index_label_image, temp, rnd);
-			if (temp.first.nc() < 256 || temp.first.nr() < 256)
-				cout << "Input Size = " << temp.first.nc() << " " << temp.first.nr() << " " << temp.second.nc() << " " << temp.second.nr() << "\n";
 			data.enqueue(temp);
         }
     };
